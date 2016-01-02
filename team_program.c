@@ -124,7 +124,7 @@ void michael()
 {
 	goForward(500);
 	goLeft(150);
-	goForward(4100);
+	goForward(4200);
 	goBackward(1500);
 	goRight(1100);
 	goForward(3500);
