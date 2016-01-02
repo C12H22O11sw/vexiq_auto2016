@@ -122,11 +122,12 @@ void anthony()
 }
 void michael()
 {
-	goLeft(630);
-	goForward(3000);
+	goForward(500);
+	goLeft(150);
+	goForward(4100);
 	goBackward(1500);
-	goRight(900);
-	goForward(3000);
+	goRight(1100);
+	goForward(3500);
 	goBackward(100);
 	lift(-500, 129);
 	goRight(530);
@@ -141,15 +142,8 @@ void michael()
 
 task main()
 {
-	/*
 	anthony();
-	setMotorSpeed(Lmotor, 0);
-	setMotorSpeed(Lmotor, 0);
-	setMotorSpeed(Lmotor, 0);
-	setMotorSpeed(Lmotor, 0);
-	delay(5000);*/
 	michael();
-
 }
 
 
