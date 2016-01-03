@@ -102,7 +102,7 @@ void botDump()
 }
 
 
-task main()
+void anthony()
 {
 	goRight(630);
 	goForward(3000);
@@ -119,6 +119,31 @@ task main()
 	botDump();
 	resetMotorEncoder(Llifter);
 	resetMotorEncoder(Rlifter);
+}
+void michael()
+{
+	goForward(500);
+	goLeft(150);
+	goForward(4200);
+	goBackward(1500);
+	goRight(1100);
+	goForward(3500);
+	goBackward(100);
+	lift(-500, 129);
+	goRight(530);
+	goBackward(1300);
+	goRight(430);
+	goBackward(800);
+	goBackward(0);
+	botDump();
+	resetMotorEncoder(Llifter);
+	resetMotorEncoder(Rlifter);
+}
+
+task main()
+{
+	anthony();
+	michael();
 }
 
 
