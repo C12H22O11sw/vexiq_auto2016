@@ -72,7 +72,7 @@ static void goScoopDown(const int deg)
 }
 static void goDump(void)
 {
-	goScoopUp(1300);
+	goScoopUp(1250);
 	goScoopwait();
 	delay(800);
 	goScoopDown(0);
@@ -107,10 +107,11 @@ static void anthony()
 }
 static void michael()
 {
-	goLeft(630);
-	goForward(2500);
-	goBackward(1300);
-	goRight(1000);
+	goForward(400);
+	goLeft(125);
+	goForward(4500);
+	goBackward(1500);
+	goRight(1100);
 	goForward(3500);
 	goScoopUp(500);
 	goBackward(450);
@@ -252,15 +253,7 @@ static void ramp(void)
 task main()
 {
 	resetDirection();
-	//anthony();
-	//goStop();
-	//delay(5000);
+	anthony();
 	michael();
-	//name of motor, degrees, speed
-	//setMotorTarget
-	/*
-	goStop();
-	delay(5000);
 	ramp();
-	*/
 }
