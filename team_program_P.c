@@ -60,7 +60,7 @@ static void goScoopwait(void)
 }
 static void goScoopUp(const int deg)
 {
-	const int speed = -129;
+	const int speed = -50;
 	setMotorTarget(L_LIFT, -deg, speed);
 	setMotorTarget(R_LIFT, -deg, speed);
 }
@@ -72,9 +72,9 @@ static void goScoopDown(const int deg)
 }
 static void goDump(void)
 {
-	goScoopUp(1150);
+	goScoopUp(1025);
 	goScoopwait();
-	delay(800);
+	sleep(1250);
 	goScoopDown(0);
 	delay(500);
 }
@@ -116,34 +116,32 @@ static void goHome(const int ms)
 }
 static void anthony()
 {
-	goRight(1000);
+	goRight(1200);
 	goForward(1800);
 	goBackward(1500);
 	goLeft(500);
 	goForward(200);
 	goLeft(200);
-	goBackward(200);
+	goBackward(250);
 	goLeft(500);
-	goForward(2900);
-	goLeft(100);
-	goForward(100);
-	goScoopUp(500);
+	goForward(2600);
 	goBackward(450);
+	goScoopUp(500);
 	goStop();
 	goScoopwait();
 	goLeft(940);
 	goForward(800);
 	goBackward(1400);
-	goLeft(500);
-	goBackward(1500);
+	goLeft(600);
+	goBackward(1450);
 	goStop();
 	goDump();
 }
 static void michael()
 {
-	goForward(400);
-	goLeft(125);
-	goForward(4500);
+	goHome(6000);
+	goLeft(1000);
+	goForward(2250);
 	goBackward(1375);
 	goRight(500);
 	goForward(200);
@@ -153,14 +151,12 @@ static void michael()
 	goForward(2700);
 	goScoopUp(500);
 	goBackward(500);
-	goLeft(500);
-	goForward(500);
-	goRight(1000);
-	goForward(1000);
+        goLeft(500);
+        goForward(500);
+        goRight(1000);
+        goForward(1300);
 	goBackward(1350);
-	goStop();
-	goScoopwait();
-	goRight(520);
+	goRight(600);
 	goBackward(1400);
 	goStop();
 	goDump();
@@ -168,12 +164,12 @@ static void michael()
 static void resetDirection(void)
 {
 	resetGyro(GYRO);
-	resetTimer(T4);
+	clearTimer(T4);
 }
 static float getDirection(void)
 {
 	const float drift=0.135;  /*deg/sec gyro drift*/
-	return getGyroHeadingFloat(GYRO) - drift * getTimer(T4, seconds);
+	return getGyroHeadingFloat(GYRO) - drift * time1[T4];
 }
 static void goForwardGyro(const float deg, const int ms)
 {
@@ -185,8 +181,8 @@ static void goForwardGyro(const float deg, const int ms)
 	setMotorSpeed(R_MOT, speedRight);
 	setMotorSpeed(L_TMOT, speedLeft);
 	setMotorSpeed(R_TMOT, speedRight);
-	resetTimer(T1);
-	while(getTimer(T1, milliseconds) < ms)
+	clearTimer(T1);
+	while(time1[T1] < ms)
 	{
 		float direction = getDirection();
 		if (direction > deg) {
@@ -200,7 +196,7 @@ static void goForwardGyro(const float deg, const int ms)
 				setMotorSpeed(R_MOT, speedRight);
 				setMotorSpeed(R_TMOT, speedRight);
 			}
-			} else if (direction < deg) {
+		} else if (direction < deg) {
 			if (speedLeft == Fast) {
 				speedLeft = Slow;
 				setMotorSpeed(L_MOT, speedLeft);
@@ -211,7 +207,7 @@ static void goForwardGyro(const float deg, const int ms)
 				setMotorSpeed(R_MOT, speedRight);
 				setMotorSpeed(R_TMOT, speedRight);
 			}
-			} else {
+		} else {
 			if (speedLeft != Fast) {
 				speedLeft = Fast;
 				setMotorSpeed(L_MOT, speedLeft);
@@ -236,8 +232,8 @@ static void goBackwardGyro(const float deg, const int ms)
 	setMotorSpeed(R_MOT, speedRight);
 	setMotorSpeed(L_TMOT, speedLeft);
 	setMotorSpeed(R_TMOT, speedRight);
-	resetTimer(T1);
-	while(getTimer(T1, milliseconds) < ms)
+	clearTimer(T1);
+	while(time1[T1] < ms)
 	{
 		direction = getDirection();
 		if (direction > deg) {
@@ -251,7 +247,7 @@ static void goBackwardGyro(const float deg, const int ms)
 				setMotorSpeed(L_MOT, speedLeft);
 				setMotorSpeed(L_TMOT, speedLeft);
 			}
-			} else if (direction < deg) {
+		} else if (direction < deg) {
 			if (speedRight == Fast) {
 				speedRight = Slow;
 				setMotorSpeed(R_MOT, speedRight);
@@ -262,7 +258,7 @@ static void goBackwardGyro(const float deg, const int ms)
 				setMotorSpeed(L_MOT, speedLeft);
 				setMotorSpeed(L_TMOT, speedLeft);
 			}
-			} else {
+		} else {
 			if (speedRight != Fast) {
 				speedRight = Fast;
 				setMotorSpeed(R_MOT, speedRight);
@@ -298,10 +294,11 @@ static void ramp(void)
 {
 	goHome(10000);
 	resetDirection();
-	goForward(1450);
-	goRight(500);
-	goBackwardGyro(90, 4700);
-	goScoopDown(-40);
+	goForward(1500);
+	goLeft(550);
+	goScoopUp(200);
+	goForwardGyro(90, 4700);
+	goScoopDown(0);
 	goHome(30000000);
 }
 
@@ -310,6 +307,6 @@ task main()
 {
 	resetDirection();
 	anthony();
-	michael();
-	ramp();
+	//michael();
+	//ramp();
 }
